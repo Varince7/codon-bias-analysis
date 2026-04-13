@@ -2,6 +2,7 @@ import java.util.ArrayList;
 import java.io.*;
 import java.util.Scanner;
 
+//test
 enum FileType { SPIKE, REPLICASE }
 
 public class Main {

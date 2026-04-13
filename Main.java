@@ -2,6 +2,7 @@ import java.util.ArrayList;
 import java.io.*;
 import java.util.Scanner;
 //This method runs the codon trial
+//test3
 enum FileType { SPIKE, REPLICASE }
 
 public class Main {

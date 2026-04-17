@@ -6,7 +6,7 @@ enum FileType { SPIKE, REPLICASE }
 
 public class Main {
     public static void main(String[] args) throws IOException{
-
+        
     }
 
 public static void parseFasta(ArrayList<CodonEntry> list, String path, FileType type) throws IOException

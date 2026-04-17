@@ -3,7 +3,7 @@ import java.util.ArrayList;
 import java.io.File;
 import java.time.format.TextStyle;
 
-public class MainCodon 
+public class CodonEntry 
 {
     public static void main(String[] args)
     {
@@ -14,7 +14,7 @@ public class MainCodon
     {
         ArrayList<CodonEntry> list = new ArrayList<>();
         {
-            Test{
+            Test {
                 File f = new File(filename);
                 Scanner reader = new Scanner (file);
 

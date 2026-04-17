@@ -37,6 +37,56 @@ public class CodonEntry
             }
             return list;
         }
+
+        public static void calculateRSCU(ArrayList<CodonEntry> list)
+    {
+        for(CodonEntry entry : list)
+        {
+            String aminoAcid = entry.getAminoAcid();
+
+            int totalRep = 0;
+            int totalSpike = 0;
+            int countSyn = 0;
+            
+            for(CodonEntry other : list)
+            {
+                if(other.getAminoAcid().equals(aminoAcid))
+                {
+                    totalRep += other.getRepCount();
+                    totalSpike += other.getSpikeCount();
+                    countSyn++;
+                }
+            }
+            
+            double expectedRep; 
+            double expectedSpike; 
+
+            if (countSyn == 0)
+            {
+                expectedRep = 0;
+                expectedSpike = 0;
+            }
+            else
+            {
+                expectedRep = (double) totalRep / countSyn;
+                expectedSpike = (double) totalSpike / countSyn;
+            }
+
+            double rscuRep = 0;
+            double rscuSpike = 0;
+
+            if(expectedRep != 0)
+            {
+                rscuRep = entry.getRepCount() / expectedRep;
+            }
+            if(expectedSpike != 0)
+            {
+                rscuSpike = entry.getSpikeCount() / expectedSpike;
+            }
+            entry.setRSCURep(rscuRep);
+            entry.setRSCUSpike(rscuSpike);
+        }
+    }
     }
   
 }

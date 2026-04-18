@@ -40,12 +40,4 @@ public class CodonEntry {
     public double getSpikeRSCU() {
         return SpikeRSCU;
     }
-
-    public void incrementSpikeCount() {
-        CodonSpikeCount++;
-    }
-
-    public void incrementReplicaseCount() {
-        CodonReplicaseCount++;
-    }
 }

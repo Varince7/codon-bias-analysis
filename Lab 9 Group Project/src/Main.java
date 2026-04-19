@@ -8,7 +8,7 @@ public class Main {
     public static void main(String[] args) throws IOException{
         
     }
-    
+    //test
 /**
      * Calculates and sets the RSU for a CodonEntry
      * @param entry codonEntry object to set RSCU for

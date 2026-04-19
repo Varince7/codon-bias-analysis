@@ -7,12 +7,16 @@ enum Region { SPIKE, REPLICASE }
 public class Main {
     public static void main(String[] args) throws IOException
     {
+        // Constructs CodonEntry arraylist with data from file
         ArrayList<CodonEntry> codonList = readCodonFile("codons.csv");
+        // Sets spike/replicase counts for each codon
         parseFasta(codonList, "h1n1-ha.fasta", Region.SPIKE);
         parseFasta(codonList, "h1n1-pb1.fasta", Region.REPLICASE);
 
+        // Generate Arraylist of AminoAcids
         ArrayList<AminoAcid> aminoList = getAminoList(codonList);
 
+        // Calculate RSCU for codons
         calculateRSCU(codonList);
     }
 
@@ -181,9 +185,8 @@ public class Main {
     /**
      * Parses spike/replicase fasta files and sets the counts for the CodonEntry objects
      * @param list The CodonEntry ArrayList to set counts for
-     * @param path  The filepath of the fasta file to read from
+     * @param path The filepath of the fasta file to read from
      * @param region The fasta file's corresponding region of the virus
-     * @throws IOException
      */
     public static void parseFasta(ArrayList<CodonEntry> list, String path, Region region) throws IOException
     {

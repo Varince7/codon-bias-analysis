@@ -1,6 +1,6 @@
 public class CodonEntry {
     private String CodonSequence;
-    private String AnimoAcid;
+    private String AminoAcid;
     private String Abbreviation;
     private int CodonReplicaseCount;
     private int CodonSpikeCount;
@@ -9,7 +9,7 @@ public class CodonEntry {
 
     public CodonEntry(String codonsequence, String aminoacid, String abbreviation) {
         CodonSequence = codonsequence;
-        AnimoAcid = aminoacid;
+        AminoAcid = aminoacid;
         Abbreviation = abbreviation;
     }
 
@@ -17,8 +17,8 @@ public class CodonEntry {
         return CodonSequence;
     }
 
-    public String getAnimoAcid() {
-        return AnimoAcid;
+    public String getAminoAcid() {
+        return AminoAcid;
     }
 
     public String getAbbreviation() {
@@ -39,5 +39,21 @@ public class CodonEntry {
 
     public double getSpikeRSCU() {
         return SpikeRSCU;
+    }
+
+    public void setReplicaseRSCU(double replicaseRSCU) {
+        ReplicaseRSCU = replicaseRSCU;
+    }
+
+    public void setSpikeRSCU(double spikeRSCU) {
+        SpikeRSCU = spikeRSCU;
+    }
+
+    public void incrementSpikeCount() {
+        CodonSpikeCount++;
+    }
+
+    public void incrementReplicaseCount() {
+        CodonReplicaseCount++;
     }
 }

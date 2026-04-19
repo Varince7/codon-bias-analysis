@@ -2,14 +2,101 @@ import java.util.ArrayList;
 import java.io.*;
 import java.util.Scanner;
 
-enum FileType { SPIKE, REPLICASE }
+enum Region { SPIKE, REPLICASE }
 
 public class Main {
-    public static void main(String[] args) throws IOException{
-        
+    public static void main(String[] args) throws IOException
+    {
+        ArrayList<CodonEntry> codonList = readCodonFile("codons.csv");
+        parseFasta(codonList, "h1n1-ha.fasta", Region.SPIKE);
+        parseFasta(codonList, "h1n1-pb1.fasta", Region.REPLICASE);
+
+        ArrayList<AminoAcid> aminoList = getAminoList(codonList);
+
     }
-    //test
-/**
+
+    public static ArrayList<CodonEntry> readCodonFile(String filename) throws IOException
+    {
+        ArrayList<CodonEntry> list = new ArrayList<>();
+
+//        Test
+        File f = new File(filename);
+        Scanner reader = new Scanner(f);
+
+        reader.nextLine(); // Gets rid of first line
+        while (reader.hasNextLine())
+        {
+            String line = reader.nextLine();
+            String[] parts = line.split(",");
+
+//            if (parts.length >= ___)
+//            {
+                CodonEntry entry = new CodonEntry(parts[0], parts[1], parts[2]);
+                list.add(entry);
+//            }
+        }
+        reader.close();
+
+//        catch(Exception e)
+//        {
+//            System.out.println("Error___");
+
+        return list;
+
+    }
+
+    public static void calculateRSCU(ArrayList<CodonEntry> list)
+    {
+        for(CodonEntry entry : list)
+        {
+            String aminoAcid = entry.getAminoAcid();
+
+            int totalRep = 0;
+            int totalSpike = 0;
+            int countSyn = 0;
+
+            for(CodonEntry other : list)
+            {
+                if(other.getAminoAcid().equals(aminoAcid))
+                {
+                    totalRep += other.getCodonReplicaseCount();
+                    totalSpike += other.getCodonSpikeCount();
+                    countSyn++;
+                }
+            }
+
+            double expectedRep;
+            double expectedSpike;
+
+            if (countSyn == 0)
+            {
+                expectedRep = 0;
+                expectedSpike = 0;
+            }
+            else
+            {
+                expectedRep = (double) totalRep / countSyn;
+                expectedSpike = (double) totalSpike / countSyn;
+            }
+
+            double rscuRep = 0;
+            double rscuSpike = 0;
+
+            if(expectedRep != 0)
+            {
+                rscuRep = entry.getCodonReplicaseCount() / expectedRep;
+            }
+            if(expectedSpike != 0)
+            {
+                rscuSpike = entry.getCodonSpikeCount() / expectedSpike;
+            }
+            entry.setReplicaseRSCU(rscuRep);
+            entry.setSpikeRSCU(rscuSpike);
+        }
+    }
+
+
+    /**
      * Calculates and sets the RSU for a CodonEntry
      * @param entry codonEntry object to set RSCU for
      * @param amino AminoAcid object to get expected frequency value from
@@ -19,14 +106,14 @@ public class Main {
     {
         if(region == Region.SPIKE) {
             double expected = amino.calculateSpikeExpected();
-            double RSCU = entry.getSpikeCount() / expected;
-            entry.setRSCUSpike(RSCU);
+            double RSCU = entry.getCodonSpikeCount() / expected;
+            entry.setSpikeRSCU(RSCU);
         }
         else if(region == Region.REPLICASE)
         {
             double expected = amino.calculateReplicaseExpected();
-            double RSCU = entry.getReplicaseCount() / expected;
-            entry.setRSCUReplicase(RSCU);
+            double RSCU = entry.getCodonReplicaseCount() / expected;
+            entry.setReplicaseRSCU(RSCU);
         }
     }
 
@@ -42,7 +129,7 @@ public class Main {
         AminoAcid entryAmino = null;
         for (AminoAcid amino: aminoList)
         {
-            if(entry.getAminoName().equals(amino.getName()))
+            if(entry.getAminoAcid().equals(amino.getName()))
             {
                 entryAmino = amino;
                 return amino;
@@ -57,7 +144,7 @@ public class Main {
 
         for(CodonEntry entry: codonList)
         {
-            String name = entry.getAminoName();
+            String name = entry.getAminoAcid();
             boolean inList = false;
             // Check if amino acid in list
             for(AminoAcid AA: aminoList)
@@ -67,8 +154,8 @@ public class Main {
                     // Increase counts for amino acid already in list
                     inList = true;
                     AA.incrementNumSynCodons();
-                    AA.setSpikeInstances(AA.getSpikeInstances() + entry.getSpikeCount());
-                    AA.setReplicaseInstances(AA.getReplicaseInstances() + entry.getReplicaseCount());
+                    AA.setSpikeInstances(AA.getSpikeInstances() + entry.getCodonSpikeCount());
+                    AA.setReplicaseInstances(AA.getReplicaseInstances() + entry.getCodonReplicaseCount());
                 }
             }
             if(!inList)
@@ -76,14 +163,14 @@ public class Main {
                 // Add amino acid to list and set initial information
                 AminoAcid AA = new AminoAcid(name);
                 aminoList.add(AA);
-                AA.setSpikeInstances(entry.getSpikeCount());
-                AA.setReplicaseInstances(entry.getReplicaseCount());
+                AA.setSpikeInstances(entry.getCodonSpikeCount());
+                AA.setReplicaseInstances(entry.getCodonReplicaseCount());
             }
         }
         return aminoList;
     }
     
-public static void parseFasta(ArrayList<CodonEntry> list, String path, FileType type) throws IOException
+    public static void parseFasta(ArrayList<CodonEntry> list, String path, Region region) throws IOException
     {
         // Open file
         File f = new File(path);
@@ -106,10 +193,10 @@ public static void parseFasta(ArrayList<CodonEntry> list, String path, FileType 
                 {
                     if (codon.equals(entry.getCodonSequence()))
                     {
-                        switch (type)
+                        switch (region)
                         {
-                            case SPIKE -> entry.incrementSpike();
-                            case REPLICASE -> entry.incrementReplicase();
+                            case SPIKE -> entry.incrementSpikeCount();
+                            case REPLICASE -> entry.incrementReplicaseCount();
                         }
                     }
                 }

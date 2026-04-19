@@ -6,9 +6,9 @@
 public class AminoAcid {
     private String name;
     // Number of codons that code for this amino acid in the spike
-    private int spikeInstances = 0;
+    private int spikeCount = 0;
     // Number of codons that code for this amino acid in the replicase
-    private int replicaseInstances = 0;
+    private int replicaseCount = 0;
     // Number of synonymous codons
     private int numSynCodons = 1;
 
@@ -18,23 +18,23 @@ public class AminoAcid {
     }
 
     public String toString(){
-        return String.format("[Name: %s, spikeInstances: %d, replicaseInstances: %d, numberSynonymousCodons: %d]", name, spikeInstances, replicaseInstances, numSynCodons);
+        return String.format("[Name: %s, spikeCount: %d, replicaseCount: %d, numberSynonymousCodons: %d]", name, spikeCount, replicaseCount, numSynCodons);
     }
 
     public String getName() {
         return name;
     }
 
-    public int getReplicaseInstances() {
-        return replicaseInstances;
+    public int getReplicaseCount() {
+        return replicaseCount;
     }
 
-    public void setReplicaseInstances(int replicaseInstances) {
-        this.replicaseInstances = replicaseInstances;
+    public void setReplicaseCount(int replicaseCount) {
+        this.replicaseCount = replicaseCount;
     }
 
-    public int getSpikeInstances() {
-        return spikeInstances;
+    public int getSpikeCount() {
+        return spikeCount;
     }
 
     public int getNumSynCodons() {
@@ -45,8 +45,8 @@ public class AminoAcid {
         this.numSynCodons = numSynCodons;
     }
 
-    public void setSpikeInstances(int spikeInstances) {
-        this.spikeInstances = spikeInstances;
+    public void setSpikeCount(int spikeCount) {
+        this.spikeCount = spikeCount;
     }
 
     public void incrementNumSynCodons(){
@@ -58,7 +58,7 @@ public class AminoAcid {
      * @return the expected codon frequency in the spike
      */
     public double calculateSpikeExpected(){
-        return (double) spikeInstances / numSynCodons;
+        return (double) spikeCount / numSynCodons;
     }
 
     /**
@@ -66,6 +66,6 @@ public class AminoAcid {
      * @return the expected codon frequency in the replicase
      */
     public double calculateReplicaseExpected(){
-        return (double) replicaseInstances / numSynCodons;
+        return (double) replicaseCount / numSynCodons;
     }
 }

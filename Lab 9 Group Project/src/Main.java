@@ -13,6 +13,7 @@ public class Main {
 
         ArrayList<AminoAcid> aminoList = getAminoList(codonList);
 
+        calculateRSCU(codonList);
     }
 
     public static ArrayList<CodonEntry> readCodonFile(String filename) throws IOException
@@ -138,6 +139,13 @@ public class Main {
         return entryAmino;
     }
 
+    /**
+     * Generates an ArrayList of AminoAcid objects with the information from
+     * an ArrayList of CodonEntry objects. Sets the AminoAcid's spike/replicase counts,
+     * and sets the number of synonymous codons.
+     * @param codonList An Arraylist of CodonEntry objects to get counts from
+     * @return An ArrayList of AminoAcid objects with spike/replicase and synonymous codon counts
+     */
     public static ArrayList<AminoAcid> getAminoList(ArrayList<CodonEntry> codonList)
     {
         ArrayList<AminoAcid> aminoList = new ArrayList<>(21);
@@ -154,8 +162,8 @@ public class Main {
                     // Increase counts for amino acid already in list
                     inList = true;
                     AA.incrementNumSynCodons();
-                    AA.setSpikeInstances(AA.getSpikeInstances() + entry.getCodonSpikeCount());
-                    AA.setReplicaseInstances(AA.getReplicaseInstances() + entry.getCodonReplicaseCount());
+                    AA.setSpikeCount(AA.getSpikeCount() + entry.getCodonSpikeCount());
+                    AA.setReplicaseCount(AA.getReplicaseCount() + entry.getCodonReplicaseCount());
                 }
             }
             if(!inList)
@@ -163,13 +171,20 @@ public class Main {
                 // Add amino acid to list and set initial information
                 AminoAcid AA = new AminoAcid(name);
                 aminoList.add(AA);
-                AA.setSpikeInstances(entry.getCodonSpikeCount());
-                AA.setReplicaseInstances(entry.getCodonReplicaseCount());
+                AA.setSpikeCount(entry.getCodonSpikeCount());
+                AA.setReplicaseCount(entry.getCodonReplicaseCount());
             }
         }
         return aminoList;
     }
-    
+
+    /**
+     * Parses spike/replicase fasta files and sets the counts for the CodonEntry objects
+     * @param list The CodonEntry ArrayList to set counts for
+     * @param path  The filepath of the fasta file to read from
+     * @param region The fasta file's corresponding region of the virus
+     * @throws IOException
+     */
     public static void parseFasta(ArrayList<CodonEntry> list, String path, Region region) throws IOException
     {
         // Open file
@@ -182,12 +197,9 @@ public class Main {
             String line = infile.nextLine();
             for(int i = 0; i <= line.length() - 3; i += 3)
             {
-                // Loop to construct each codon string
-                String codon = "";
-                for(int k = i; k < i + 3; k++)
-                {
-                    codon += line.charAt(k);
-                }
+                // Construct each codon string
+                String codon = line.substring(i, i + 3);
+
                 // Find codon match in arraylist
                 for (CodonEntry entry : list)
                 {

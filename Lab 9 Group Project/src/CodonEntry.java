@@ -6,6 +6,7 @@ public class CodonEntry {
     private int CodonSpikeCount;
     private double ReplicaseRSCU;
     private double SpikeRSCU;
+    private double RSCUDifference;
 
     public CodonEntry(String codonsequence, String aminoacid, String abbreviation) {
         CodonSequence = codonsequence;
@@ -47,6 +48,14 @@ public class CodonEntry {
 
     public void setSpikeRSCU(double spikeRSCU) {
         SpikeRSCU = spikeRSCU;
+    }
+
+    public double getRSCUDifference() {
+        return RSCUDifference;
+    }
+
+    public void setRSCUDifference(double RSCUDifference) {
+        this.RSCUDifference = RSCUDifference;
     }
 
     public void incrementSpikeCount() {

@@ -18,6 +18,8 @@ public class Main {
 
         // Calculate RSCU for codons
         calculateRSCU(codonList);
+        // Sets differences between spike/replicase RSCU
+        setRSCUDiff(codonList);
     }
 
     public static ArrayList<CodonEntry> readCodonFile(String filename) throws IOException
@@ -100,6 +102,44 @@ public class Main {
         }
     }
 
+    /**
+     * Calculates and sets the RSCU difference between the spike and the replicase
+     * for an ArrayList of CodonEntrys
+     * @param codonList An ArrayList of CodonEntrys to set RSCU differences for
+     */
+    public static void setRSCUDiff(ArrayList<CodonEntry> codonList)
+    {
+        for (CodonEntry entry: codonList)
+        {
+            double difference = entry.getSpikeRSCU() - entry.getReplicaseRSCU();
+            entry.setRSCUDifference(difference);
+        }
+    }
+
+    /**
+     * Takes a RSCU value and returns a category based on its favorability
+     * @param RSCU RSCU value to determine category for
+     * @return the category of the RSCU value
+     */
+    public static String determineRSCUCategory(double RSCU)
+    {
+        if (RSCU < 0.6)
+        {
+            return "Highly Unfavored";
+        }else if (RSCU >= 0.6 && RSCU < 0.9)
+        {
+            return "Unfavored";
+        }else if (RSCU >= 0.9 && RSCU <= 1.1)
+        {
+            return "Stable";
+        }else if (RSCU > 1.1 && RSCU <= 1.6)
+        {
+            return "Favored";
+        }else
+        {
+            return "Highly Favored";
+        }
+    }
 
     /**
      * Calculates and sets the RSU for a CodonEntry
@@ -203,7 +243,7 @@ public class Main {
                 // Construct each codon string
                 String codon = line.substring(i, i + 3);
 
-                // Find codon match in arraylist
+                // Find codon match in arraylist and increment
                 for (CodonEntry entry : list)
                 {
                     if (codon.equals(entry.getCodonSequence()))

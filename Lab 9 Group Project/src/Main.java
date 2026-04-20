@@ -17,7 +17,8 @@ public class Main {
         // Sets differences between spike/replicase RSCU
         setRSCUDiff(codonList);
 
-        writeRegionCSV("test.csv", codonList, Region.SPIKE);
+        writeRegionCSV(codonList, Region.SPIKE);
+        writeRegionCSV(codonList, Region.REPLICASE);
     }
 
     public static ArrayList<CodonEntry> readCodonFile(String filename) throws IOException {
@@ -156,10 +157,14 @@ public class Main {
         infile.close();
     }
 
-    public static void writeRegionCSV(String filename, ArrayList<CodonEntry> list, Region region) throws FileNotFoundException {
+    public static void writeRegionCSV(ArrayList<CodonEntry> list, Region region) throws FileNotFoundException {
+        String filename = switch(region){
+            case SPIKE -> "spike_rscu.csv";
+            case REPLICASE -> "replicase_rscu.csv";
+        };
         PrintWriter out = new PrintWriter(filename);
 
-        out.println("Codon,AminoAcid,Letter,Count,TotalAA,Percent,RSCU");
+        out.println("Codon,AA_Name,AA_Code,Count,Total_AA_Count,Percent,RSCU");
 
         int count;
         double rscu;

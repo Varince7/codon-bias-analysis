@@ -159,7 +159,8 @@ public class Main {
     public static void writeRegionCSV(String filename, ArrayList<CodonEntry> list, Region region) throws FileNotFoundException {
         PrintWriter out = new PrintWriter(filename);
 
-        out.println("Codon,AminoAcid,Letter,Count,TotalAA,Percent,RSCU");
+        //out.println("Codon,AminoAcid,Letter,Count,TotalAA,Percent,RSCU");
+        out.println("Codon,AA_Name,AA_Code,Count,Total_AA_Count,Percentage,RSCU");
 
         int count;
         double rscu;

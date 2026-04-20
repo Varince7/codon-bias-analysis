@@ -18,11 +18,9 @@ public class Main {
         // Sets differences between spike/replicase RSCU
         setRSCUDiff(codonList);
 
-        writeRegionCSV("test.csv", codonList, Region.SPIKE);
-
-        compileRSCV(codonList);
         writeRegionCSV(codonList, Region.SPIKE);
         writeRegionCSV(codonList, Region.REPLICASE);
+        GenerateComparison("replicase_rscu.csv","spike_rscu.csv");
     }
 
     public static ArrayList<CodonEntry> readCodonFile(String filename) throws IOException {
@@ -213,7 +211,41 @@ public class Main {
         out.close();
     }
 
-    public static void compileRSCV(ArrayList<CodonEntry> AR) throws IOException  {
+
+
+    public static void GenerateComparison(String file1, String file2) throws IOException {
+
+        PrintWriter RSCVfile = new PrintWriter("rscu_comparison.csv");
+
+        RSCVfile.println("Codon,AA_Name,AA_Code,RSCU_Replicase,RSCU_Spike,RSCU_Diff,RSCU_Pct_Diff,Replicase_Category,Spike_Category,Category_Change");
+
+        File Replicase = new File(file1);
+
+        Scanner Reader1 = new Scanner(Replicase);
+
+        File Spike = new File(file2);
+
+        Scanner Reader2 = new Scanner(Spike);
+
+        String RepLine;
+        String SpikeLine;
+
+        Reader1.nextLine();
+        Reader2.nextLine();
+
+        while (Reader1.hasNextLine()) {
+            RepLine = Reader1.nextLine();
+            SpikeLine = Reader2.nextLine();
+            String[] RepParts = RepLine.split(",");
+            String[] SpikeParts = SpikeLine.split(",");
+            RSCVfile.println(RepParts[0]+","+RepParts[1]+","+RepParts[2]+","+RepParts[6]+","+SpikeParts[6]);
+        }
+        RSCVfile.close();
+        Reader1.close();
+        Reader2.close();
+    }
+
+    /*    public static void compileRSCV(ArrayList<CodonEntry> AR) throws IOException  {
 		PrintWriter RSCVfile = new PrintWriter("RSCVcompiled.txt");
 		RSCVfile.println("Codon,AA_Name,AA_Code,RSCU_Replicase,RSCU_Spike,RSCU_Diff,RSCU_Pct_Diff,Replicase_Category,Spike_Category,Category_Change");
 
@@ -221,5 +253,7 @@ public class Main {
 			RSCVfile.println(AR.get(i));
 		}
 		RSCVfile.close();
+        
 	}
+        */
 }

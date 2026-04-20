@@ -1,65 +1,65 @@
 Codon,AA_Name,AA_Code,RSCU_Replicase,RSCU_Spike,RSCU_Diff,RSCU_Pct_Diff,Replicase_Category,Spike_Category,Category_Change
-GCT,Alanine,A,1.10,0.80
-GCC,Alanine,A,0.80,0.93
-GCA,Alanine,A,2.10,2.00
-GCG,Alanine,A,0.00,0.27
-CGT,Arginine,R,0.24,0.00
-CGC,Arginine,R,0.12,0.00
-CGA,Arginine,R,0.60,0.00
-CGG,Arginine,R,0.60,0.00
-AGA,Arginine,R,2.76,3.47
-AGG,Arginine,R,1.68,2.53
-AAT,Asparagine,N,0.94,1.22
-AAC,Asparagine,N,1.06,0.78
-GAT,Aspartic_Acid,D,1.27,0.87
-GAC,Aspartic_Acid,D,0.73,1.13
-TGT,Cysteine,C,0.80,1.20
-TGC,Cysteine,C,1.20,0.80
-CAA,Glutamine,Q,1.31,0.80
-CAG,Glutamine,Q,0.69,1.20
-GAA,Glutamic_Acid,E,1.31,1.17
-GAG,Glutamic_Acid,E,0.69,0.83
-GGT,Glycine,G,0.70,0.68
-GGC,Glycine,G,0.26,0.39
-GGA,Glycine,G,1.83,1.66
-GGG,Glycine,G,1.22,1.27
-CAT,Histidine,H,1.60,1.43
-CAC,Histidine,H,0.40,0.57
-ATT,Isoleucine,I,1.02,1.30
-ATC,Isoleucine,I,0.84,0.70
-ATA,Isoleucine,I,1.14,1.00
-TTA,Leucine,L,0.74,0.61
-TTG,Leucine,L,0.74,1.22
-CTT,Leucine,L,0.84,0.49
-CTC,Leucine,L,0.74,0.49
-CTA,Leucine,L,2.11,1.84
-CTG,Leucine,L,0.84,1.35
-AAA,Lysine,K,0.98,1.40
-AAG,Lysine,K,1.02,0.60
-ATG,Methionine,M,1.00,1.00
-TTT,Phenylalanine,F,0.73,1.20
-TTC,Phenylalanine,F,1.27,0.80
-CCT,Proline,P,1.38,0.63
-CCC,Proline,P,0.25,0.63
-CCA,Proline,P,1.88,1.89
-CCG,Proline,P,0.50,0.84
-TCT,Serine,S,0.60,0.84
-TCC,Serine,S,0.84,0.96
-TCA,Serine,S,1.44,2.28
-TCG,Serine,S,0.60,0.24
-AGT,Serine,S,0.96,0.96
-AGC,Serine,S,1.56,0.72
-ACT,Threonine,T,0.67,0.47
-ACC,Threonine,T,0.80,0.94
-ACA,Threonine,T,2.33,2.24
-ACG,Threonine,T,0.20,0.35
-TGG,Tryptophan,W,1.00,1.00
-TAT,Tyrosine,Y,0.72,1.31
-TAC,Tyrosine,Y,1.28,0.69
-GTT,Valine,V,0.82,0.89
-GTC,Valine,V,0.94,0.89
-GTA,Valine,V,0.71,1.44
-GTG,Valine,V,1.53,0.78
-TAA,STOP,_,0.00,3.00
-TAG,STOP,_,3.00,0.00
-TGA,STOP,_,0.00,0.00
+GCT,Alanine,A,1.10,0.80,-0.30,-27.27%,Stable,Unfavored
+GCC,Alanine,A,0.80,0.93,0.13,16.67%,Unfavored,Stable
+GCA,Alanine,A,2.10,2.00,-0.10,-4.76%,Highly Favored,Highly Favored
+GCG,Alanine,A,0.00,0.27,0.27,0.00%,Highly Unfavored,Highly Unfavored
+CGT,Arginine,R,0.24,0.00,-0.24,-100.00%,Highly Unfavored,Highly Unfavored
+CGC,Arginine,R,0.12,0.00,-0.12,-100.00%,Highly Unfavored,Highly Unfavored
+CGA,Arginine,R,0.60,0.00,-0.60,-100.00%,Unfavored,Highly Unfavored
+CGG,Arginine,R,0.60,0.00,-0.60,-100.00%,Unfavored,Highly Unfavored
+AGA,Arginine,R,2.76,3.47,0.71,25.86%,Highly Favored,Highly Favored
+AGG,Arginine,R,1.68,2.53,0.85,50.38%,Highly Favored,Highly Favored
+AAT,Asparagine,N,0.94,1.22,0.28,29.68%,Stable,Favored
+AAC,Asparagine,N,1.06,0.78,-0.28,-26.25%,Stable,Unfavored
+GAT,Aspartic_Acid,D,1.27,0.87,-0.40,-31.68%,Favored,Unfavored
+GAC,Aspartic_Acid,D,0.73,1.13,0.40,55.43%,Unfavored,Favored
+TGT,Cysteine,C,0.80,1.20,0.40,50.00%,Unfavored,Favored
+TGC,Cysteine,C,1.20,0.80,-0.40,-33.33%,Favored,Unfavored
+CAA,Glutamine,Q,1.31,0.80,-0.51,-39.05%,Favored,Unfavored
+CAG,Glutamine,Q,0.69,1.20,0.51,74.55%,Unfavored,Favored
+GAA,Glutamic_Acid,E,1.31,1.17,-0.14,-10.68%,Favored,Favored
+GAG,Glutamic_Acid,E,0.69,0.83,0.14,20.10%,Unfavored,Unfavored
+GGT,Glycine,G,0.70,0.68,-0.01,-1.83%,Unfavored,Unfavored
+GGC,Glycine,G,0.26,0.39,0.13,49.59%,Highly Unfavored,Highly Unfavored
+GGA,Glycine,G,1.83,1.66,-0.17,-9.18%,Highly Favored,Highly Favored
+GGG,Glycine,G,1.22,1.27,0.05,4.18%,Favored,Favored
+CAT,Histidine,H,1.60,1.43,-0.17,-10.71%,Favored,Favored
+CAC,Histidine,H,0.40,0.57,0.17,42.86%,Highly Unfavored,Highly Unfavored
+ATT,Isoleucine,I,1.02,1.30,0.28,27.45%,Stable,Favored
+ATC,Isoleucine,I,0.84,0.70,-0.14,-16.67%,Unfavored,Unfavored
+ATA,Isoleucine,I,1.14,1.00,-0.14,-12.28%,Favored,Stable
+TTA,Leucine,L,0.74,0.61,-0.12,-16.91%,Unfavored,Unfavored
+TTG,Leucine,L,0.74,1.22,0.49,66.18%,Unfavored,Favored
+CTT,Leucine,L,0.84,0.49,-0.35,-41.84%,Unfavored,Highly Unfavored
+CTC,Leucine,L,0.74,0.49,-0.25,-33.53%,Unfavored,Highly Unfavored
+CTA,Leucine,L,2.11,1.84,-0.27,-12.76%,Highly Favored,Highly Favored
+CTG,Leucine,L,0.84,1.35,0.50,59.95%,Unfavored,Favored
+AAA,Lysine,K,0.98,1.40,0.41,42.33%,Stable,Favored
+AAG,Lysine,K,1.02,0.60,-0.41,-40.70%,Stable,Unfavored
+ATG,Methionine,M,1.00,1.00,0.00,0.00%,Stable,Stable
+TTT,Phenylalanine,F,0.73,1.20,0.47,65.00%,Unfavored,Favored
+TTC,Phenylalanine,F,1.27,0.80,-0.47,-37.14%,Favored,Unfavored
+CCT,Proline,P,1.38,0.63,-0.74,-54.07%,Favored,Unfavored
+CCC,Proline,P,0.25,0.63,0.38,152.63%,Highly Unfavored,Unfavored
+CCA,Proline,P,1.88,1.89,0.02,1.05%,Highly Favored,Highly Favored
+CCG,Proline,P,0.50,0.84,0.34,68.42%,Highly Unfavored,Unfavored
+TCT,Serine,S,0.60,0.84,0.24,40.00%,Unfavored,Unfavored
+TCC,Serine,S,0.84,0.96,0.12,14.29%,Unfavored,Stable
+TCA,Serine,S,1.44,2.28,0.84,58.33%,Favored,Highly Favored
+TCG,Serine,S,0.60,0.24,-0.36,-60.00%,Unfavored,Highly Unfavored
+AGT,Serine,S,0.96,0.96,0.00,0.00%,Stable,Stable
+AGC,Serine,S,1.56,0.72,-0.84,-53.85%,Favored,Unfavored
+ACT,Threonine,T,0.67,0.47,-0.20,-29.41%,Unfavored,Highly Unfavored
+ACC,Threonine,T,0.80,0.94,0.14,17.65%,Unfavored,Stable
+ACA,Threonine,T,2.33,2.24,-0.10,-4.20%,Highly Favored,Highly Favored
+ACG,Threonine,T,0.20,0.35,0.15,76.47%,Highly Unfavored,Highly Unfavored
+TGG,Tryptophan,W,1.00,1.00,0.00,0.00%,Stable,Stable
+TAT,Tyrosine,Y,0.72,1.31,0.59,81.62%,Unfavored,Favored
+TAC,Tyrosine,Y,1.28,0.69,-0.59,-45.91%,Favored,Unfavored
+GTT,Valine,V,0.82,0.89,0.07,7.94%,Unfavored,Unfavored
+GTC,Valine,V,0.94,0.89,-0.05,-5.56%,Stable,Unfavored
+GTA,Valine,V,0.71,1.44,0.74,104.63%,Unfavored,Favored
+GTG,Valine,V,1.53,0.78,-0.75,-49.15%,Favored,Unfavored
+TAA,STOP,_,0.00,3.00,3.00,0.00%,Highly Unfavored,Highly Favored
+TAG,STOP,_,3.00,0.00,-3.00,-100.00%,Highly Favored,Highly Unfavored
+TGA,STOP,_,0.00,0.00,0.00,0.00%,Highly Unfavored,Highly Unfavored

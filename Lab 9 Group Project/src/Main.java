@@ -20,7 +20,7 @@ public class Main {
 
         writeRegionCSV(codonList, Region.SPIKE);
         writeRegionCSV(codonList, Region.REPLICASE);
-        GenerateComparison("replicase_rscu.csv","spike_rscu.csv");
+        GenerateComparison(codonList,"replicase_rscu.csv","spike_rscu.csv");
     }
 
     public static ArrayList<CodonEntry> readCodonFile(String filename) throws IOException {
@@ -102,6 +102,17 @@ public class Main {
         for (CodonEntry entry : codonList) {
             double difference = entry.getSpikeRSCU() - entry.getReplicaseRSCU();
             entry.setRSCUDifference(difference);
+
+            double percentageDiff;
+            if (entry.getReplicaseRSCU() == 0)
+            {
+                percentageDiff = 0;
+            }
+            else
+            {
+                percentageDiff = (difference / entry.getReplicaseRSCU()) * 100;
+            }
+            entry.setRSCUPercentageDifference(percentageDiff);
         }
     }
 
@@ -127,7 +138,6 @@ public class Main {
 
     /**
      * Parses spike/replicase fasta files and sets the counts for the CodonEntry objects
-     *
      * @param list   The CodonEntry ArrayList to set counts for
      * @param path   The filepath of the fasta file to read from
      * @param region The fasta file's corresponding region of the virus
@@ -205,55 +215,57 @@ public class Main {
                 percent = (double) count / total * 100;
             }
 
-//            out.println("entry.getCodonSequence() + "," + entry.getAminoAcid() + "," + entry.getAbbreviation() + "," + count + "," + total + "," + percent + "," + rscu);
             out.printf("%s,%s,%s,%d,%d,%.2f%%,%.2f\n", entry.getCodonSequence(),entry.getAminoAcid(),entry.getAbbreviation(),count,total,percent,rscu);
         }
         out.close();
     }
 
+    public static CodonEntry getEntry(ArrayList<CodonEntry> codonList, String sequence)
+    {
+        for (CodonEntry entry: codonList)
+        {
+            if(entry.getCodonSequence().equals(sequence))
+            {
+                return entry;
+            }
+        }
+        return null;
+    }
 
+    public static void GenerateComparison(ArrayList<CodonEntry> codonList, String replicaseFile, String spikeFile) throws IOException {
 
-    public static void GenerateComparison(String file1, String file2) throws IOException {
+        PrintWriter rscuOutfile = new PrintWriter("rscu_comparison.csv");
 
-        PrintWriter RSCVfile = new PrintWriter("rscu_comparison.csv");
+        rscuOutfile.println("Codon,AA_Name,AA_Code,RSCU_Replicase,RSCU_Spike,RSCU_Diff,RSCU_Pct_Diff,Replicase_Category,Spike_Category,Category_Change");
 
-        RSCVfile.println("Codon,AA_Name,AA_Code,RSCU_Replicase,RSCU_Spike,RSCU_Diff,RSCU_Pct_Diff,Replicase_Category,Spike_Category,Category_Change");
+        File Replicase = new File(replicaseFile);
+        Scanner repReader = new Scanner(Replicase);
 
-        File Replicase = new File(file1);
-
-        Scanner Reader1 = new Scanner(Replicase);
-
-        File Spike = new File(file2);
-
-        Scanner Reader2 = new Scanner(Spike);
+        File Spike = new File(spikeFile);
+        Scanner spikeReader = new Scanner(Spike);
 
         String RepLine;
         String SpikeLine;
 
-        Reader1.nextLine();
-        Reader2.nextLine();
+        repReader.nextLine();
+        spikeReader.nextLine();
 
-        while (Reader1.hasNextLine()) {
-            RepLine = Reader1.nextLine();
-            SpikeLine = Reader2.nextLine();
+        while (repReader.hasNextLine()) {
+            RepLine = repReader.nextLine();
+            SpikeLine = spikeReader.nextLine();
             String[] RepParts = RepLine.split(",");
             String[] SpikeParts = SpikeLine.split(",");
-            RSCVfile.println(RepParts[0]+","+RepParts[1]+","+RepParts[2]+","+RepParts[6]+","+SpikeParts[6]);
+            String sequence = RepParts[0];
+            String aminoAcid = RepParts[1];
+            String abbreviation = RepParts[2];
+            Double repRSCU = Double.parseDouble(RepParts[6]);
+            Double spikeRSCU = Double.parseDouble(SpikeParts[6]);
+            CodonEntry entry = getEntry(codonList, sequence);
+            rscuOutfile.printf("%s,%s,%s,%.2f,%.2f,%.2f,%.2f,%s,%s\n",
+                    sequence, aminoAcid, abbreviation, repRSCU, spikeRSCU, entry.getRSCUDifference(), entry.getRSCUPercentageDifference(), determineRSCUCategory(repRSCU), determineRSCUCategory(spikeRSCU));
         }
-        RSCVfile.close();
-        Reader1.close();
-        Reader2.close();
+        rscuOutfile.close();
+        repReader.close();
+        spikeReader.close();
     }
-
-    /*    public static void compileRSCV(ArrayList<CodonEntry> AR) throws IOException  {
-		PrintWriter RSCVfile = new PrintWriter("RSCVcompiled.txt");
-		RSCVfile.println("Codon,AA_Name,AA_Code,RSCU_Replicase,RSCU_Spike,RSCU_Diff,RSCU_Pct_Diff,Replicase_Category,Spike_Category,Category_Change");
-
-		for(int i=0; i <= AR.size(); i++) {
-			RSCVfile.println(AR.get(i));
-		}
-		RSCVfile.close();
-        
-	}
-        */
 }

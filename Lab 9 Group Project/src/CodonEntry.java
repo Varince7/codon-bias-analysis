@@ -65,4 +65,8 @@ public class CodonEntry {
     public void incrementReplicaseCount() {
         CodonReplicaseCount++;
     }
+
+    public String toString() {
+        return (CodonSequence+", "+AminoAcid+", "+Abbreviation+", "+ReplicaseRSCU+", "+SpikeRSCU+", "+RSCUDifference);
+    }
 }

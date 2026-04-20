@@ -19,6 +19,8 @@ public class Main {
         setRSCUDiff(codonList);
 
         writeRegionCSV("test.csv", codonList, Region.SPIKE);
+
+        compileRSCV(codonList);
     }
 
     public static ArrayList<CodonEntry> readCodonFile(String filename) throws IOException {

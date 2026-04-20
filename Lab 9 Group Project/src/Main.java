@@ -261,3 +261,114 @@ public class Main {
         infile.close();
     }
 }
+public static void writeRegionCSV(String filename, ArrayList<CodonEntry> list, boolean isRep)
+    {
+        PrintWriter out = new PrintWriter(filename);
+
+        out.println("Codon,AminoAcid,Letter,Count,TotalAA,Percent,RSCU");
+
+        int count;
+        double rscu;
+        double percent;
+
+        for(CodonEntry entry : list)
+        {
+            String aminoAcid = entry.getAminoAcid();
+            int total = 0;
+
+            for(CodonEntry other : list)
+            {
+                if(other.getAminoAcid().equals(aminoAcid))
+                {
+                    if (isRep)
+                    {
+                        total += other.getRepCount();
+                    }
+                    else
+                    {
+                        total += other.getSpikeCount();
+                    }
+                }
+            }
+
+            if (isRep)
+                {
+                count = entry.getRepCount();
+                rscu = entry.getRSCURep();
+                }
+            else
+                {
+                count = entry.getSpikeCount();
+                rscu = entry.getRSCUSpike();
+                }
+            
+            if (total == 0)
+                {
+                percent = 0;
+                }
+            else
+                {
+                percent = (double) count / total * 100;
+                }
+
+            out.println(entry.getCodon() + "," + entry.getAminoAcid() + "," + entry.getLetter() + "," + count + "," + total + "," + percent + "," + rscu);
+
+        }
+        out.close();
+    }
+
+public static void writeRegionCSV(String filename, ArrayList<CodonEntry> list, boolean isRep)
+    {
+        PrintWriter out = new PrintWriter(filename);
+
+        out.println("Codon,AminoAcid,Letter,Count,TotalAA,Percent,RSCU");
+
+        int count;
+        double rscu;
+        double percent;
+
+        for(CodonEntry entry : list)
+        {
+            String aminoAcid = entry.getAminoAcid();
+            int total = 0;
+
+            for(CodonEntry other : list)
+            {
+                if(other.getAminoAcid().equals(aminoAcid))
+                {
+                    if (isRep)
+                    {
+                        total += other.getRepCount();
+                    }
+                    else
+                    {
+                        total += other.getSpikeCount();
+                    }
+                }
+            }
+
+            if (isRep)
+                {
+                count = entry.getRepCount();
+                rscu = entry.getRSCURep();
+                }
+            else
+                {
+                count = entry.getSpikeCount();
+                rscu = entry.getRSCUSpike();
+                }
+            
+            if (total == 0)
+                {
+                percent = 0;
+                }
+            else
+                {
+                percent = (double) count / total * 100;
+                }
+
+            out.println(entry.getCodon() + "," + entry.getAminoAcid() + "," + entry.getLetter() + "," + count + "," + total + "," + percent + "," + rscu);
+
+        }
+        out.close();
+    }

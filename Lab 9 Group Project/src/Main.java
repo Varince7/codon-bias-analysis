@@ -17,7 +17,7 @@ public class Main {
         // Sets differences between spike/replicase RSCU
         setRSCUDiff(codonList);
 
-        writeRegionCSV("test.csv", codonList, true);
+        writeRegionCSV("test.csv", codonList, Region.SPIKE);
     }
 
     public static ArrayList<CodonEntry> readCodonFile(String filename) throws IOException {
@@ -156,7 +156,7 @@ public class Main {
         infile.close();
     }
 
-    public static void writeRegionCSV(String filename, ArrayList<CodonEntry> list, boolean isRep) throws FileNotFoundException {
+    public static void writeRegionCSV(String filename, ArrayList<CodonEntry> list, Region region) throws FileNotFoundException {
         PrintWriter out = new PrintWriter(filename);
 
         out.println("Codon,AminoAcid,Letter,Count,TotalAA,Percent,RSCU");
@@ -171,20 +171,25 @@ public class Main {
 
             for (CodonEntry other : list) {
                 if (other.getAminoAcid().equals(aminoAcid)) {
-                    if (isRep) {
-                        total += other.getCodonReplicaseCount();
-                    } else {
-                        total += other.getCodonSpikeCount();
+                    switch(region) {
+                       case REPLICASE -> total += other.getCodonReplicaseCount();
+                       case SPIKE -> total += other.getCodonSpikeCount();
                     }
                 }
             }
 
-            if (isRep) {
-                count = entry.getCodonReplicaseCount();
-                rscu = entry.getReplicaseRSCU();
-            } else {
-                count = entry.getCodonSpikeCount();
-                rscu = entry.getSpikeRSCU();
+            switch(region) {
+                case REPLICASE:
+                    count = entry.getCodonReplicaseCount();
+                    rscu = entry.getReplicaseRSCU();
+                    break;
+                case SPIKE:
+                    count = entry.getCodonSpikeCount();
+                    rscu = entry.getSpikeRSCU();
+                    break;
+                default:
+                    count = 0;
+                    rscu = 0;
             }
 
             if (total == 0) {
@@ -193,8 +198,8 @@ public class Main {
                 percent = (double) count / total * 100;
             }
 
-            out.println(entry.getCodonSequence() + "," + entry.getAminoAcid() + "," + entry.getAbbreviation() + "," + count + "," + total + "," + percent + "," + rscu);
-
+//            out.println("entry.getCodonSequence() + "," + entry.getAminoAcid() + "," + entry.getAbbreviation() + "," + count + "," + total + "," + percent + "," + rscu);
+            out.printf("%s,%s,%s,%d,%d,%.2f%%,%.2f\n", entry.getCodonSequence(),entry.getAminoAcid(),entry.getAbbreviation(),count,total,percent,rscu);
         }
         out.close();
     }

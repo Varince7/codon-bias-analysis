@@ -2,6 +2,7 @@ import java.util.ArrayList;
 import java.io.*;
 import java.util.Scanner;
 
+
 enum Region { SPIKE, REPLICASE }
 
 public class Main {
@@ -203,4 +204,14 @@ public class Main {
         }
         out.close();
     }
+
+    public static void compileRSCV(ArrayList<CodonEntry> AR) throws IOException  {
+		PrintWriter RSCVfile = new PrintWriter("RSCVcompiled.txt");
+		RSCVfile.println("Codon,AA_Name,AA_Code,RSCU_Replicase,RSCU_Spike,RSCU_Diff,RSCU_Pct_Diff,Replicase_Category,Spike_Category,Category_Change");
+
+		for(int i=0; i <= AR.size(); i++) {
+			RSCVfile.println(AR.get(i));
+		}
+		RSCVfile.close();
+	}
 }

@@ -268,4 +268,22 @@ public class Main {
         repReader.close();
         spikeReader.close();
     }
+     public static String upOrDown(String repRank, String spikeRank)
+    {
+        int repFavored = getFavored(repRank);
+        int spikeFavored = getFavored(spikeRank);
+
+        if (spikeFavored > repFavored)
+        {
+            return "UP";
+        }
+        else if (spikeFavored < repFavored)
+        {
+            return "DOWN";
+        }
+        else
+        {
+            return " ";
+        }
+    }
 }

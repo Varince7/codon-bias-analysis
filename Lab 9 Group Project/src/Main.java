@@ -268,4 +268,46 @@ public class Main {
         repReader.close();
         spikeReader.close();
     }
+     public static int getFavored(double repRank)
+    {
+        if (repRank >= 1.6)
+        {
+            return 5;
+        }
+        else if (repRank >= 1.2)
+        {
+            return 4;
+        }
+        else if (repRank >= 0.8)
+        {
+            return 3;
+        }
+        else if (repRank >= 0.4)
+        {
+            return 2;
+        }
+        else
+        {
+            return 1;
+        }
+    }
+
+    public static String upOrDown(CodonEntry c)
+    {
+        int repFavored = getFavored(c.getReplicaseRSCU());
+        int spikeFavored = getFavored(c.getSpikeRSCU());
+
+        if (spikeFavored > repFavored)
+        {
+            return "UP";
+        }
+        else if (spikeFavored < repFavored)
+        {
+            return "DOWN";
+        }
+        else
+        {
+            return " ";
+        }
+    }
 }

@@ -303,7 +303,13 @@ public class Main {
         }
     }
 
-
+    /**
+     * Determines whether a codon's usage trend increases or decreases
+     * between the replicase and spike regions. In other words Up io Down.
+     *
+     * @param c the CodonEntry object
+     * @return "UP" if spike is more favored, "DOWN" if less favored, or "" if unchanged
+     */
     public static String upOrDown(CodonEntry c)
     {
         int repFavored = getFavored(c.getReplicaseRSCU());

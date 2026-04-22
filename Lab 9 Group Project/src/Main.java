@@ -21,6 +21,8 @@ public class Main {
         writeRegionCSV(codonList, Region.SPIKE);
         writeRegionCSV(codonList, Region.REPLICASE);
         GenerateComparison(codonList,"replicase_rscu.csv","spike_rscu.csv");
+
+        generateFavoredReport(codonList.get(0));
     }
 
     public static ArrayList<CodonEntry> readCodonFile(String filename) throws IOException {
@@ -309,5 +311,31 @@ public class Main {
         {
             return " ";
         }
+    }
+
+    public static void generateFavoredReport(CodonEntry entry) throws IOException
+    {
+        PrintWriter outfile = new PrintWriter("spike_favored.txt");
+
+        String dashedLine = "--------------------------------------------------------------------------";
+        String heading = String.format("%s\n%-8s%-24s%-6s%-22s%-14s\n%s",
+                dashedLine, "Codon", "Amino Acid", "AA", "Replicase Category", "Spike Category", dashedLine);
+
+        outfile.print("==========================================================================\n" +
+                      "CODON USAGE BIAS SHIFT REPORT — Replicase vs. Spike Protein\n" +
+                      "==========================================================================\n");
+
+        outfile.println("\n▲  INCREASED FAVORABILITY  (Spike more favored than Replicase)");
+        outfile.println(heading);
+        outfile.printf("%-8s%-24s%-6s%-22s%-14s\n", entry.getCodonSequence(), entry.getAminoAcid(), entry.getAbbreviation(), "Favored", "Stable");
+        outfile.println(dashedLine);
+        outfile.println("Total codons shifted UP:");
+
+        outfile.println("\n▼  DECREASED FAVORABILITY  (Spike less favored than Replicase)");
+        outfile.println(heading);
+        outfile.printf("%-8s%-24s%-6s%-22s%-14s\n", entry.getCodonSequence(), entry.getAminoAcid(), entry.getAbbreviation(), "Favored", "Stable");
+        outfile.println(dashedLine);
+        outfile.println("Total codons shifted DOWN:");
+        outfile.close();
     }
 }

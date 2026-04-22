@@ -278,7 +278,13 @@ public class Main {
         repReader.close();
         spikeReader.close();
     }
-
+    /**
+     * This method determines the favored ranking of a codon based on its RSCU value.
+     * The method then assigns a number 1-5 to rank the codons favorability.
+     *
+     * @param repRank  The RSCU value of the codon
+     * @return  Returns an Int
+     */
     public static int getFavored(double repRank)
     {
         if (repRank > 1.6)

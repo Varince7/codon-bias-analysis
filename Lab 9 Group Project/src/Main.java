@@ -22,7 +22,7 @@ public class Main {
         writeRegionCSV(codonList, Region.REPLICASE);
         GenerateComparison(codonList,"replicase_rscu.csv","spike_rscu.csv");
 
-        generateFavoredReport(codonList.get(0));
+        generateFavoredReport(codonList);
     }
 
     public static ArrayList<CodonEntry> readCodonFile(String filename) throws IOException {
@@ -270,21 +270,22 @@ public class Main {
         repReader.close();
         spikeReader.close();
     }
-     public static int getFavored(double repRank)
+
+    public static int getFavored(double repRank)
     {
-        if (repRank >= 1.6)
+        if (repRank > 1.6)
         {
             return 5;
         }
-        else if (repRank >= 1.2)
+        else if (repRank > 1.1)
         {
             return 4;
         }
-        else if (repRank >= 0.8)
+        else if (repRank >= 0.9)
         {
             return 3;
         }
-        else if (repRank >= 0.4)
+        else if (repRank >= 0.6)
         {
             return 2;
         }
@@ -293,6 +294,7 @@ public class Main {
             return 1;
         }
     }
+
 
     public static String upOrDown(CodonEntry c)
     {
@@ -313,29 +315,62 @@ public class Main {
         }
     }
 
-    public static void generateFavoredReport(CodonEntry entry) throws IOException
+    /**
+     * Creates a report that describes the shift in codon usage bias
+     * between the spike and replicase
+     * @param
+     * @throws IOException
+     */
+    public static void generateFavoredReport(ArrayList<CodonEntry> codonList) throws IOException
     {
         PrintWriter outfile = new PrintWriter("spike_favored.txt");
 
-        String dashedLine = "--------------------------------------------------------------------------";
-        String heading = String.format("%s\n%-8s%-24s%-6s%-22s%-14s\n%s",
+        int upCount = 0;
+        int downCount = 0;
+        String dashedLine = "  --------------------------------------------------------------------------";
+        String doubleLine = "  ==========================================================================";
+        String heading = String.format("%s\n  %-8s%-24s%-6s%-22s%-14s\n%s",
                 dashedLine, "Codon", "Amino Acid", "AA", "Replicase Category", "Spike Category", dashedLine);
 
-        outfile.print("==========================================================================\n" +
-                      "CODON USAGE BIAS SHIFT REPORT — Replicase vs. Spike Protein\n" +
-                      "==========================================================================\n");
+        outfile.println();
+        outfile.print(doubleLine + "\n" +
+                      "  CODON USAGE BIAS SHIFT REPORT — Replicase vs. Spike Protein\n" +
+                      doubleLine + "\n");
 
-        outfile.println("\n▲  INCREASED FAVORABILITY  (Spike more favored than Replicase)");
+        outfile.println("\n  ▲  INCREASED FAVORABILITY  (Spike more favored than Replicase)");
         outfile.println(heading);
-        outfile.printf("%-8s%-24s%-6s%-22s%-14s\n", entry.getCodonSequence(), entry.getAminoAcid(), entry.getAbbreviation(), "Favored", "Stable");
-        outfile.println(dashedLine);
-        outfile.println("Total codons shifted UP:");
 
-        outfile.println("\n▼  DECREASED FAVORABILITY  (Spike less favored than Replicase)");
-        outfile.println(heading);
-        outfile.printf("%-8s%-24s%-6s%-22s%-14s\n", entry.getCodonSequence(), entry.getAminoAcid(), entry.getAbbreviation(), "Favored", "Stable");
+        for(CodonEntry entry: codonList)
+        {
+            if (upOrDown(entry).equals("UP"))
+            {
+                outfile.printf("  %-8s%-24s%-6s%-22s%-14s\n",
+                        entry.getCodonSequence(), entry.getAminoAcid(), entry.getAbbreviation(),
+                        determineRSCUCategory(entry.getReplicaseRSCU()), determineRSCUCategory(entry.getSpikeRSCU()));
+                upCount++;
+            }
+        }
+
         outfile.println(dashedLine);
-        outfile.println("Total codons shifted DOWN:");
+        outfile.println("  Total codons shifted UP: " + upCount + "\n");
+
+        outfile.println("  ▼  DECREASED FAVORABILITY  (Spike less favored than Replicase)");
+        outfile.println(heading);
+
+        for(CodonEntry entry: codonList)
+        {
+            if (upOrDown(entry).equals("DOWN"))
+            {
+                outfile.printf("  %-8s%-24s%-6s%-22s%-14s\n",
+                        entry.getCodonSequence(), entry.getAminoAcid(), entry.getAbbreviation(),
+                        determineRSCUCategory(entry.getReplicaseRSCU()), determineRSCUCategory(entry.getSpikeRSCU()));
+                downCount++;
+            }
+        }
+
+        outfile.println(dashedLine);
+        outfile.println("  Total codons shifted DOWN: " + downCount + "\n");
+        outfile.println(doubleLine);
         outfile.close();
     }
 }

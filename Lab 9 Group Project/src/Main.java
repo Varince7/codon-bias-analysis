@@ -170,7 +170,15 @@ public class Main {
         // Close file
         infile.close();
     }
-
+    
+    /**
+     * This method writes a CSV file containing RSCU analysis for either the replicase
+     * or spike region. It includes codon counts, totals, percentages, and RSCU values.
+     * @param filename The name of the file
+     * @param list  The list of CodonEntry objects containing analysis data
+     * @param isReplicase  If true it will write replicase data, false it will write spike data
+     * @throws Exception  If the file cannot be written
+     */
     public static void writeRegionCSV(ArrayList<CodonEntry> list, Region region) throws FileNotFoundException {
         String filename = switch(region){
             case SPIKE -> "spike_rscu.csv";

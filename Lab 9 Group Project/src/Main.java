@@ -176,7 +176,15 @@ public class Main {
         // Close file
         infile.close();
     }
-
+    
+    /**
+     * This method writes a CSV file containing RSCU analysis for either the replicase
+     * or spike region. It includes codon counts, totals, percentages, and RSCU values.
+     * @param filename The name of the file
+     * @param list  The list of CodonEntry objects containing analysis data
+     * @param isReplicase  If true it will write replicase data, false it will write spike data
+     * @throws Exception  If the file cannot be written
+     */
     public static void writeRegionCSV(ArrayList<CodonEntry> list, Region region) throws FileNotFoundException {
         String filename = switch(region){
             case SPIKE -> "spike_rscu.csv";
@@ -277,7 +285,13 @@ public class Main {
         repReader.close();
         spikeReader.close();
     }
-
+    /**
+     * This method determines the favored ranking of a codon based on its RSCU value.
+     * The method then assigns a number 1-5 to rank the codons favorability.
+     *
+     * @param repRank  The RSCU value of the codon
+     * @return  Returns an Int
+     */
     public static int getFavored(double repRank)
     {
         if (repRank > 1.6)
@@ -302,7 +316,13 @@ public class Main {
         }
     }
 
-
+    /**
+     * Determines whether a codon's usage trend increases or decreases
+     * between the replicase and spike regions. In other words Up io Down.
+     *
+     * @param c the CodonEntry object
+     * @return "UP" if spike is more favored, "DOWN" if less favored, or "" if unchanged
+     */
     public static String upOrDown(CodonEntry c)
     {
         int repFavored = getFavored(c.getReplicaseRSCU());

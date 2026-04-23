@@ -143,23 +143,29 @@ public class Main {
      * @param list   The CodonEntry ArrayList to set counts for
      * @param path   The filepath of the fasta file to read from
      * @param region The fasta file's corresponding region of the virus
+     * @throws IOException thrown when there is a problem opening file
      */
     public static void parseFasta(ArrayList<CodonEntry> list, String path, Region region) throws IOException {
         // Open file
         File f = new File(path);
         Scanner infile = new Scanner(f);
 
-        while (infile.hasNext()) {
+        while (infile.hasNext())
+        {
             // Read a line and loop through it three characters at a time
             String line = infile.nextLine();
-            for (int i = 0; i <= line.length() - 3; i += 3) {
+            for (int i = 0; i <= line.length() - 3; i += 3)
+            {
                 // Construct each codon string
                 String codon = line.substring(i, i + 3);
 
                 // Find codon match in arraylist and increment
-                for (CodonEntry entry : list) {
-                    if (codon.equals(entry.getCodonSequence())) {
-                        switch (region) {
+                for (CodonEntry entry : list)
+                {
+                    if (codon.equals(entry.getCodonSequence()))
+                    {
+                        switch (region)
+                        {
                             case SPIKE -> entry.incrementSpikeCount();
                             case REPLICASE -> entry.incrementReplicaseCount();
                         }
@@ -263,8 +269,9 @@ public class Main {
             Double repRSCU = Double.parseDouble(RepParts[6]);
             Double spikeRSCU = Double.parseDouble(SpikeParts[6]);
             CodonEntry entry = getEntry(codonList, sequence);
-            rscuOutfile.printf("%s,%s,%s,%.2f,%.2f,%.2f,%.2f,%s,%s\n",
-                    sequence, aminoAcid, abbreviation, repRSCU, spikeRSCU, entry.getRSCUDifference(), entry.getRSCUPercentageDifference(), determineRSCUCategory(repRSCU), determineRSCUCategory(spikeRSCU));
+            rscuOutfile.printf("%s,%s,%s,%.2f,%.2f,%.2f,%.2f,%s,%s,%s\n",
+                    sequence, aminoAcid, abbreviation, repRSCU, spikeRSCU, entry.getRSCUDifference(), entry.getRSCUPercentageDifference(),
+                    determineRSCUCategory(repRSCU), determineRSCUCategory(spikeRSCU), upOrDown(entry));
         }
         rscuOutfile.close();
         repReader.close();
@@ -317,9 +324,9 @@ public class Main {
 
     /**
      * Creates a report that describes the shift in codon usage bias
-     * between the spike and replicase
-     * @param
-     * @throws IOException
+     * between the spike and replicase using codons in an ArrayList
+     * @param codonList An ArrayList of CodonEntrys to organize by shift in usage bias
+     * @throws IOException thrown when there is a problem opening file
      */
     public static void generateFavoredReport(ArrayList<CodonEntry> codonList) throws IOException
     {

@@ -31,6 +31,13 @@ public class RSCUAnalysis {
         generateFavoredReport(codonList);
     }
 
+    /**
+     * Reads codons from a file and creates an ArrayList of CodonEntry objects with the
+     * codon's sequence, amino acid, and amino acid abbreviation
+     * @param filename File to read codons from
+     * @return An ArrayList of CodonEntry objects
+     * @throws IOException thrown when there is a problem opening file
+     */
     public static ArrayList<CodonEntry> readCodonFile(String filename) throws IOException {
         ArrayList<CodonEntry> list = new ArrayList<>();
 
@@ -49,6 +56,11 @@ public class RSCUAnalysis {
         return list;
     }
 
+    /**
+     * Calculates and sets the RSCU for both spike/replicase regions
+     * for CodonEntry objects in an ArrayList
+     * @param list The ArrayList of CodonEntry objects to set the RSCU for
+     */
     public static void calculateRSCU(ArrayList<CodonEntry> list) {
         for (CodonEntry entry : list) {
             String aminoAcid = entry.getAminoAcid();
@@ -178,7 +190,7 @@ public class RSCUAnalysis {
      * or spike region. It includes codon counts, totals, percentages, and RSCU values.
      * @param list  The list of CodonEntry objects containing analysis data
      * @param region  for choosing whether to write replicase data or spike data
-     * @throws Exception  If the file cannot be written
+     * @throws FileNotFoundException  If the file cannot be written
      */
     public static void writeRegionCSV(ArrayList<CodonEntry> list, Region region) throws FileNotFoundException {
         String filename = switch(region){
@@ -277,8 +289,8 @@ public class RSCUAnalysis {
             String sequence = RepParts[0];
             String aminoAcid = RepParts[1];
             String abbreviation = RepParts[2];
-            Double repRSCU = Double.parseDouble(RepParts[6]);
-            Double spikeRSCU = Double.parseDouble(SpikeParts[6]);
+            double repRSCU = Double.parseDouble(RepParts[6]);
+            double spikeRSCU = Double.parseDouble(SpikeParts[6]);
             CodonEntry entry = getEntry(codonList, sequence);
             rscuOutfile.printf("%s,%s,%s,%.2f,%.2f,%.2f,%.2f,%s,%s,%s\n",
                     sequence, aminoAcid, abbreviation, repRSCU, spikeRSCU, entry.getRSCUDifference(), entry.getRSCUPercentageDifference(),

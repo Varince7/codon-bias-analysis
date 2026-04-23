@@ -1,3 +1,7 @@
+/*
+Names: Soleil, Steven, Luca
+Section: MW
+ */
 import java.util.ArrayList;
 import java.io.*;
 import java.util.Scanner;
@@ -5,13 +9,16 @@ import java.util.Scanner;
 
 enum Region { SPIKE, REPLICASE }
 
-public class Main {
+/**
+ * This class performs RSCU analysis on two regions of the COVID-19 virus
+ */
+public class RSCUAnalysis {
     public static void main(String[] args) throws IOException {
         // Constructs CodonEntry arraylist with data from file
         ArrayList<CodonEntry> codonList = readCodonFile("codons.csv");
         // Sets spike/replicase counts for each codon
-        parseFasta(codonList, "h1n1-ha.fasta", Region.SPIKE);
-        parseFasta(codonList, "h1n1-pb1.fasta", Region.REPLICASE);
+        parseFasta(codonList, "spike.fasta", Region.SPIKE);
+        parseFasta(codonList, "replicase.fasta", Region.REPLICASE);
 
         // Calculate RSCU for codons
         calculateRSCU(codonList);
@@ -21,14 +28,12 @@ public class Main {
         writeRegionCSV(codonList, Region.SPIKE);
         writeRegionCSV(codonList, Region.REPLICASE);
         GenerateComparison(codonList,"replicase_rscu.csv","spike_rscu.csv");
-
         generateFavoredReport(codonList);
     }
 
     public static ArrayList<CodonEntry> readCodonFile(String filename) throws IOException {
         ArrayList<CodonEntry> list = new ArrayList<>();
 
-//        Test
         File f = new File(filename);
         Scanner reader = new Scanner(f);
 
@@ -37,20 +42,11 @@ public class Main {
             String line = reader.nextLine();
             String[] parts = line.split(",");
 
-//            if (parts.length >= ___)
-//            {
             CodonEntry entry = new CodonEntry(parts[0], parts[1], parts[2]);
             list.add(entry);
-//            }
         }
         reader.close();
-
-//        catch(Exception e)
-//        {
-//            System.out.println("Error___");
-
         return list;
-
     }
 
     public static void calculateRSCU(ArrayList<CodonEntry> list) {
@@ -180,9 +176,8 @@ public class Main {
     /**
      * This method writes a CSV file containing RSCU analysis for either the replicase
      * or spike region. It includes codon counts, totals, percentages, and RSCU values.
-     * @param filename The name of the file
      * @param list  The list of CodonEntry objects containing analysis data
-     * @param isReplicase  If true it will write replicase data, false it will write spike data
+     * @param region  for choosing whether to write replicase data or spike data
      * @throws Exception  If the file cannot be written
      */
     public static void writeRegionCSV(ArrayList<CodonEntry> list, Region region) throws FileNotFoundException {
@@ -236,16 +231,24 @@ public class Main {
         out.close();
     }
 
+    /**
+     * Gets the matching CodonEntry for a codon sequence
+     * @param codonList ArrayList of CodonEntrys to match with
+     * @param sequence A sequence to find the matching CodonEntry for
+     * @return The matching CodonEntry for the sequence
+     */
     public static CodonEntry getEntry(ArrayList<CodonEntry> codonList, String sequence)
     {
+        CodonEntry matchingEntry = null;
         for (CodonEntry entry: codonList)
         {
             if(entry.getCodonSequence().equals(sequence))
             {
-                return entry;
+                matchingEntry = entry;
+                break; // Exit loop when matching entry is found
             }
         }
-        return null;
+        return matchingEntry;
     }
 
     public static void GenerateComparison(ArrayList<CodonEntry> codonList, String replicaseFile, String spikeFile) throws IOException {
@@ -287,7 +290,7 @@ public class Main {
     }
     /**
      * This method determines the favored ranking of a codon based on its RSCU value.
-     * The method then assigns a number 1-5 to rank the codons favorability.
+     * The method then assigns a number 1-5 to rank the codon's favorability.
      *
      * @param repRank  The RSCU value of the codon
      * @return  Returns an Int
@@ -346,7 +349,7 @@ public class Main {
      * Creates a report that describes the shift in codon usage bias
      * between the spike and replicase using codons in an ArrayList
      * @param codonList An ArrayList of CodonEntrys to organize by shift in usage bias
-     * @throws IOException thrown when there is a problem opening file
+     * @throws IOException thrown when there is a problem creating file
      */
     public static void generateFavoredReport(ArrayList<CodonEntry> codonList) throws IOException
     {

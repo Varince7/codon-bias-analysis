@@ -1,5 +1,5 @@
-import java.util.ArrayList;
 import java.io.*;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 
@@ -243,7 +243,7 @@ public class Main {
     }
 
     public static void GenerateComparison(ArrayList<CodonEntry> codonList, String replicaseFile, String spikeFile) throws IOException {
-
+        // This method Generates the rscu_comparison file.
         PrintWriter rscuOutfile = new PrintWriter("rscu_comparison.csv");
 
         rscuOutfile.println("Codon,AA_Name,AA_Code,RSCU_Replicase,RSCU_Spike,RSCU_Diff,RSCU_Pct_Diff,Replicase_Category,Spike_Category,Category_Change");
